@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HireHub - Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.25), transparent 30%),
+                radial-gradient(circle at 85% 80%, rgba(59, 130, 246, 0.18), transparent 30%),
+                linear-gradient(135deg, #020617, #0f172a);
+            color: #f8fafc;
+            overflow: hidden;
+        }
+
+        /* Background glow */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            background: rgba(37, 99, 235, 0.12);
+            border-radius: 50%;
+            filter: blur(100px);
+            top: -120px;
+            left: -100px;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            background: rgba(59, 130, 246, 0.10);
+            border-radius: 50%;
+            filter: blur(100px);
+            bottom: -120px;
+            right: -100px;
+            pointer-events: none;
+        }
+
+        /* Login Card */
+        .login-container {
+            position: relative;
+            z-index: 1;
+            width: 420px;
+            padding: 42px;
+            border-radius: 22px;
+
+            background: rgba(15, 23, 42, 0.88);
+
+            border: 1px solid rgba(59, 130, 246, 0.25);
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.55),
+                0 0 40px rgba(37, 99, 235, 0.10);
+
+            backdrop-filter: blur(18px);
+
+            animation: cardAppear 0.7s ease;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Logo */
+        .logo {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .logo span {
+            color: #3b82f6;
+        }
+
+        h1 {
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 32px;
+            font-size: 15px;
+        }
+
+        /* Labels */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        /* Inputs */
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            margin-bottom: 20px;
+
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+
+            background: #0b1120;
+            color: #f8fafc;
+
+            font-size: 14px;
+            outline: none;
+
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        input:hover {
+            border-color: #334155;
+        }
+
+        input:focus {
+            border-color: #3b82f6;
+
+            box-shadow:
+                0 0 0 3px rgba(59, 130, 246, 0.12),
+                0 0 15px rgba(37, 99, 235, 0.10);
+        }
+
+        /* Login Button */
+        button {
+            width: 100%;
+            padding: 14px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #3b82f6
+            );
+
+            color: white;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: all 0.3s ease;
+
+            box-shadow:
+                0 8px 20px rgba(37, 99, 235, 0.25);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 30px rgba(37, 99, 235, 0.40);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Message */
+        #message {
+            margin-top: 18px;
+            text-align: center;
+            min-height: 20px;
+            font-size: 14px;
+            color: #60a5fa;
+        }
+
+        /* Register */
+        .register {
+            text-align: center;
+            margin-top: 25px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .register a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .register a:hover {
+            color: #60a5fa;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+
+            .login-container {
+                width: calc(100% - 30px);
+                padding: 30px 25px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="logo">
+        <h1>Hire<span>Hub</span></h1>
+    </div>
+
+    <p class="subtitle">
+        Login to your account
+    </p>
+
+    <form id="loginForm">
+
+        <label for="email">
+            Email
+        </label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            required
+        >
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+        >
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+    <div id="message"></div>
+
+    <div class="register">
+        Don't have an account?
+        <a href="register.html">Register</a>
+    </div>
+
+</div>
+
+
+<script>
+
+document.getElementById("loginForm").addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const email =
+            document.getElementById("email").value;
+
+        const password =
+            document.getElementById("password").value;
+
+        const message =
+            document.getElementById("message");
+
+        message.textContent = "Logging in...";
+
+        try {
+
+            const response = await fetch(
+                "/api/auth/login",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.message || "Login failed"
+                );
+
+            }
+
+            /* Save logged-in user */
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data)
+            );
+
+            message.textContent =
+                "Login successful!";
+
+            console.log(
+                "Logged in user:",
+                data
+            );
+
+            /* Role based redirect */
+
+         if (data.role === "JOB_SEEKER") {
+    window.location.href = "jobs.html";
+}
+else if (data.role === "RECRUITER") {
+    window.location.href = "recruiter.html";
+}
+else if (data.role === "ADMIN") {
+    window.location.href = "dashboard.html";
+}
+else {
+    message.textContent = "Unknown user role";
+}
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            message.textContent =
+                error.message;
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

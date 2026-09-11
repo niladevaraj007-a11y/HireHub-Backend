@@ -1,0 +1,39 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# Eclipse
+.metadata/
+.factorypath
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploaded files
+uploads/
+*.pdf
+
+# Environment / secrets
+.env
+application-local.properties
+application-local.yml
+
+# Temporary files
+*.tmp
+*.temp
+# Eclipse compiled output
+bin/

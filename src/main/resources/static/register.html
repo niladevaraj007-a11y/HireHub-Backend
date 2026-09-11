@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HireHub - Register</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                radial-gradient(circle at top left, #123c69, transparent 35%),
+                radial-gradient(circle at bottom right, #1e40af, transparent 30%),
+                #050b14;
+
+            color: #ffffff;
+        }
+
+        .register-container {
+            width: 430px;
+            padding: 35px;
+
+            background: rgba(15, 23, 42, 0.92);
+
+            border: 1px solid rgba(59, 130, 246, 0.35);
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.55),
+                0 0 30px rgba(37, 99, 235, 0.12);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 5px;
+        }
+
+        .logo span {
+            color: #ffffff;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #e2e8f0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+
+            margin-bottom: 17px;
+
+            border: 1px solid #1e293b;
+            border-radius: 9px;
+
+            background: #0f172a;
+            color: white;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #3b82f6;
+
+            box-shadow:
+                0 0 0 3px rgba(59, 130, 246, 0.12);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        select option {
+            background: #0f172a;
+            color: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #3b82f6
+            );
+
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 25px rgba(37, 99, 235, 0.35);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #message {
+            min-height: 22px;
+            margin-top: 17px;
+
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .login {
+            text-align: center;
+            margin-top: 22px;
+
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .login a {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+
+            color: #475569;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="register-container">
+
+    <div class="logo">
+        Hire<span>Hub</span>
+    </div>
+
+    <p class="subtitle">
+        Create your HireHub account
+    </p>
+
+    <form id="registerForm">
+
+        <label for="fullName">Full Name</label>
+
+        <input
+            type="text"
+            id="fullName"
+            placeholder="Enter your full name"
+            required
+        >
+
+        <label for="email">Email</label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            required
+        >
+
+        <label for="phone">Phone</label>
+
+        <input
+            type="tel"
+            id="phone"
+            placeholder="Enter your phone number"
+            required
+        >
+
+        <label for="password">Password</label>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Create a password"
+            minlength="5"
+            required
+        >
+
+        <label for="role">Account Type</label>
+
+        <select id="role" required>
+
+            <option value="">
+                Select account type
+            </option>
+
+            <option value="JOB_SEEKER">
+                Job Seeker
+            </option>
+
+            <option value="RECRUITER">
+                Recruiter
+            </option>
+
+        </select>
+
+        <button type="submit" id="registerButton">
+            Create Account
+        </button>
+
+    </form>
+
+    <div id="message"></div>
+
+    <div class="login">
+        Already have an account?
+        <a href="login.html">Login</a>
+    </div>
+
+    <div class="footer-text">
+        © 2026 HireHub · Find your next opportunity
+    </div>
+
+</div>
+
+
+<script>
+
+document
+.getElementById("registerForm")
+.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const fullName =
+        document.getElementById("fullName").value.trim();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const phone =
+        document.getElementById("phone").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const role =
+        document.getElementById("role").value;
+
+    const message =
+        document.getElementById("message");
+
+    const button =
+        document.getElementById("registerButton");
+
+
+    message.textContent = "Creating account...";
+    message.style.color = "#60a5fa";
+
+    button.disabled = true;
+
+
+    try {
+
+        const response = await fetch("/api/auth/register", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                fullName: fullName,
+                email: email,
+                password: password,
+                phone: phone,
+                role: role
+
+            })
+
+        });
+
+
+        const data = await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message || "Registration failed"
+            );
+
+        }
+
+
+        console.log("Registered user:", data);
+
+
+        message.textContent =
+            "Registration successful! Redirecting...";
+
+        message.style.color = "#22c55e";
+
+
+        setTimeout(function() {
+
+            window.location.href = "login.html";
+
+        }, 1500);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        message.textContent =
+            error.message || "Registration failed";
+
+        message.style.color = "#ef4444";
+
+        button.disabled = false;
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

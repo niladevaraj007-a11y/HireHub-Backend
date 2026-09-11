@@ -1,0 +1,1607 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HireHub - Post Job</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #312e81,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #1e3a8a,
+                    transparent 35%
+                ),
+                #050816;
+
+            color: white;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            height: 70px;
+            padding: 0 7%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background:
+                rgba(5, 8, 22, 0.96);
+
+            border-bottom:
+                1px solid
+                rgba(99, 102, 241, 0.25);
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #818cf8;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #a5b4fc;
+        }
+
+        .logout {
+            color: #f87171 !important;
+            cursor: pointer;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 86%;
+            max-width: 900px;
+            margin: 45px auto 80px;
+        }
+
+        .back {
+            display: inline-block;
+
+            color: #a5b4fc;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            margin-bottom: 18px;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header h1 span {
+            color: #818cf8;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 15px;
+        }
+
+        /* ================= COMPANY INFO ================= */
+
+        .company-banner {
+            background:
+                rgba(15, 23, 42, 0.92);
+
+            border:
+                1px solid #293354;
+
+            border-radius: 14px;
+
+            padding: 15px 18px;
+
+            margin-bottom: 20px;
+        }
+
+        .company-label {
+            color: #64748b;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 5px;
+        }
+
+        .company-name {
+            color: #c7d2fe;
+
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+        .company-location {
+            color: #94a3b8;
+
+            font-size: 12px;
+
+            margin-top: 4px;
+        }
+
+        /* ================= FORM CARD ================= */
+
+        .card {
+            background:
+                rgba(15, 23, 42, 0.94);
+
+            border:
+                1px solid #293354;
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.22);
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            display: block;
+
+            color: #cbd5e1;
+
+            font-size: 13px;
+
+            margin-bottom: 7px;
+        }
+
+        .required {
+            color: #f87171;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+
+            padding: 12px 13px;
+
+            background:
+                #0f172a;
+
+            color: white;
+
+            border:
+                1px solid #334155;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-family: inherit;
+
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #64748b;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #818cf8;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(129, 140, 248, 0.10);
+        }
+
+        select option {
+            background: #0f172a;
+            color: white;
+        }
+
+        .hint {
+            color: #64748b;
+
+            font-size: 11px;
+
+            margin-top: 5px;
+        }
+
+        /* ================= ACTIONS ================= */
+
+        .actions {
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid #1e293b;
+        }
+
+        .cancel-btn,
+        .submit-btn {
+            padding: 11px 19px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            border:
+                1px solid #334155;
+
+            background:
+                #111827;
+
+            color: #cbd5e1;
+        }
+
+        .cancel-btn:hover {
+            border-color: #818cf8;
+            color: #a5b4fc;
+        }
+
+        .submit-btn {
+            border: none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+            color: white;
+        }
+
+        .submit-btn:hover {
+            box-shadow:
+                0 10px 25px
+                rgba(79, 70, 229, 0.28);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* ================= MESSAGE ================= */
+
+        #message {
+            min-height: 20px;
+
+            margin-top: 18px;
+
+            font-size: 13px;
+
+            text-align: center;
+        }
+
+        .success {
+            color: #4ade80;
+        }
+
+        .error {
+            color: #f87171;
+        }
+
+        /* ================= LOADING ================= */
+
+        #pageLoading {
+            text-align: center;
+
+            padding: 25px;
+
+            color: #64748b;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: 92%;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .nav-links a:not(.logout) {
+                display: none;
+            }
+
+            .header h1 {
+                font-size: 29px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .cancel-btn,
+            .submit-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <div class="logo">
+        Hire<span>Hub</span>
+    </div>
+
+    <div class="nav-links">
+
+        <a href="recruiter.html">
+            Dashboard
+        </a>
+
+        <a
+            href="create-job.html"
+            class="active">
+            Post Job
+        </a>
+
+        <a href="profile.html">
+            Profile
+        </a>
+
+        <a
+            class="logout"
+            onclick="logout()">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+    <div class="header">
+
+        <a
+            href="recruiter.html"
+            class="back">
+
+            ← Back to Dashboard
+
+        </a>
+
+
+        <h1>
+            Post a <span>New Job</span>
+        </h1>
+
+
+        <p>
+            Create a job opening and start receiving applications from candidates.
+        </p>
+
+    </div>
+
+
+    <!-- ================= COMPANY ================= -->
+
+    <div class="company-banner">
+
+        <div class="company-label">
+            Posting For
+        </div>
+
+        <div
+            id="companyName"
+            class="company-name">
+
+            Loading company...
+
+        </div>
+
+        <div
+            id="companyLocation"
+            class="company-location">
+
+        </div>
+
+    </div>
+
+
+    <div id="pageLoading">
+        Loading recruiter information...
+    </div>
+
+
+    <div
+        id="jobCard"
+        class="card"
+        style="display:none;">
+
+
+        <form id="jobForm">
+
+
+            <div class="form-grid">
+
+
+                <!-- TITLE -->
+
+                <div class="field full">
+
+                    <label for="title">
+
+                        Job Title
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="e.g. Junior Java Developer"
+                        required>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="field">
+
+                    <label for="location">
+
+                        Location
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        placeholder="e.g. Bangalore"
+                        required>
+
+                </div>
+
+
+                <!-- JOB TYPE -->
+
+                <div class="field">
+
+                    <label for="jobType">
+
+                        Job Type
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <select
+                        id="jobType"
+                        required>
+
+                        <option value="">
+                            Select Job Type
+                        </option>
+
+                        <option value="FULL_TIME">
+                            Full Time
+                        </option>
+
+                        <option value="PART_TIME">
+                            Part Time
+                        </option>
+
+                        <option value="INTERNSHIP">
+                            Internship
+                        </option>
+
+                        <option value="CONTRACT">
+                            Contract
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- EXPERIENCE -->
+
+                <div class="field">
+
+                    <label for="experience">
+
+                        Experience Required (Years)
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="number"
+                        id="experience"
+                        min="0"
+                        step="0.1"
+                        placeholder="0"
+                        required>
+
+                </div>
+
+
+                <!-- VACANCIES -->
+
+                <div class="field">
+
+                    <label for="vacancies">
+
+                        Vacancies
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="number"
+                        id="vacancies"
+                        min="1"
+                        step="1"
+                        placeholder="3"
+                        required>
+
+                </div>
+
+
+                <!-- MIN SALARY -->
+
+                <div class="field">
+
+                    <label for="minSalary">
+
+                        Minimum Salary (₹)
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="number"
+                        id="minSalary"
+                        min="0"
+                        step="1000"
+                        placeholder="300000"
+                        required>
+
+                </div>
+
+
+                <!-- MAX SALARY -->
+
+                <div class="field">
+
+                    <label for="maxSalary">
+
+                        Maximum Salary (₹)
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="number"
+                        id="maxSalary"
+                        min="0"
+                        step="1000"
+                        placeholder="500000"
+                        required>
+
+                </div>
+
+
+                <!-- SKILLS -->
+
+                <div class="field full">
+
+                    <label for="requiredSkills">
+
+                        Required Skills
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="requiredSkills"
+                        placeholder="Java, JDBC, SQL, Servlets, Git"
+                        required>
+
+                    <div class="hint">
+
+                        Separate skills using commas.
+
+                    </div>
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="field full">
+
+                    <label for="description">
+
+                        Job Description
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Describe the role, responsibilities, and expectations..."
+                        required></textarea>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ================= ACTIONS ================= -->
+
+            <div class="actions">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="goBack()">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    id="submitBtn"
+                    class="submit-btn">
+
+                    Post Job
+
+                </button>
+
+            </div>
+
+
+            <div id="message"></div>
+
+
+        </form>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+const user =
+    JSON.parse(
+        localStorage.getItem("user")
+    );
+
+
+if (!user) {
+
+    window.location.href =
+        "login.html";
+
+    throw new Error(
+        "User is not logged in."
+    );
+
+}
+
+
+/* =========================================================
+   RECRUITER CHECK
+========================================================= */
+
+if (
+    user.role !== "RECRUITER"
+) {
+
+    window.location.href =
+        "jobs.html";
+
+    throw new Error(
+        "Only recruiters can post jobs."
+    );
+
+}
+
+
+/* =========================================================
+   RECRUITER COMPANY
+========================================================= */
+
+let companyId = null;
+
+let recruiterProfile = null;
+
+
+/* =========================================================
+   LOAD RECRUITER PROFILE
+========================================================= */
+
+async function loadRecruiterProfile() {
+
+    try {
+
+        if (!user.userId) {
+
+            throw new Error(
+                "Recruiter user ID is missing."
+            );
+
+        }
+
+
+        const response =
+            await fetch(
+                `/api/recruiters/user/${encodeURIComponent(
+                    user.userId
+                )}`
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Recruiter profile not found."
+            );
+
+        }
+
+
+        recruiterProfile =
+            await response.json();
+
+
+        if (
+            recruiterProfile.companyId === null ||
+            recruiterProfile.companyId === undefined
+        ) {
+
+            throw new Error(
+                "Recruiter is not associated with a company."
+            );
+
+        }
+
+
+        companyId =
+            Number(
+                recruiterProfile.companyId
+            );
+
+
+        if (
+            !Number.isInteger(companyId) ||
+            companyId <= 0
+        ) {
+
+            throw new Error(
+                "Invalid company ID."
+            );
+
+        }
+
+
+        await loadCompanyInfo();
+
+
+        document.getElementById(
+            "pageLoading"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "jobCard"
+        ).style.display =
+            "block";
+
+
+        console.log(
+            "Recruiter profile:",
+            recruiterProfile
+        );
+
+        console.log(
+            "Recruiter userId:",
+            user.userId
+        );
+
+        console.log(
+            "Company ID:",
+            companyId
+        );
+
+    }
+    catch (error) {
+
+        console.error(
+            "Recruiter profile error:",
+            error
+        );
+
+
+        document.getElementById(
+            "pageLoading"
+        ).innerHTML = `
+
+            <div class="error">
+
+                ❌ ${escapeHtml(
+                    error.message
+                )}
+
+                <br><br>
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="goBack()">
+
+                    Back to Dashboard
+
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD COMPANY INFORMATION
+========================================================= */
+
+async function loadCompanyInfo() {
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/companies/${encodeURIComponent(
+                    companyId
+                )}`
+            );
+
+
+        if (!response.ok) {
+
+            document.getElementById(
+                "companyName"
+            ).textContent =
+                "Company #" +
+                companyId;
+
+            return;
+
+        }
+
+
+        const company =
+            await response.json();
+
+
+        document.getElementById(
+            "companyName"
+        ).textContent =
+            company.companyName ||
+            "Company #" +
+            companyId;
+
+
+        document.getElementById(
+            "companyLocation"
+        ).textContent =
+            company.location
+                ? "📍 " + company.location
+                : "";
+
+    }
+    catch (error) {
+
+        console.error(
+            "Company loading error:",
+            error
+        );
+
+
+        document.getElementById(
+            "companyName"
+        ).textContent =
+            "Company #" +
+            companyId;
+
+    }
+
+}
+
+
+/* =========================================================
+   FORM SUBMIT
+========================================================= */
+
+document
+    .getElementById("jobForm")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            await createJob();
+
+        }
+    );
+
+
+/* =========================================================
+   CREATE JOB
+========================================================= */
+
+async function createJob() {
+
+    const submitBtn =
+        document.getElementById(
+            "submitBtn"
+        );
+
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    if (
+        !user ||
+        !user.userId
+    ) {
+
+        showError(
+            "Recruiter login information is unavailable."
+        );
+
+        return;
+
+    }
+
+
+    const title =
+        document.getElementById(
+            "title"
+        ).value.trim();
+
+
+    const location =
+        document.getElementById(
+            "location"
+        ).value.trim();
+
+
+    const jobType =
+        document.getElementById(
+            "jobType"
+        ).value;
+
+
+    const experience =
+        Number(
+            document.getElementById(
+                "experience"
+            ).value
+        );
+
+
+    const vacancies =
+        Number(
+            document.getElementById(
+                "vacancies"
+            ).value
+        );
+
+
+    const minSalary =
+        Number(
+            document.getElementById(
+                "minSalary"
+            ).value
+        );
+
+
+    const maxSalary =
+        Number(
+            document.getElementById(
+                "maxSalary"
+            ).value
+        );
+
+
+    const requiredSkills =
+        document.getElementById(
+            "requiredSkills"
+        ).value.trim();
+
+
+    const description =
+        document.getElementById(
+            "description"
+        ).value.trim();
+
+
+    /* ================= VALIDATION ================= */
+
+    if (!title) {
+
+        showError(
+            "Please enter a job title."
+        );
+
+        return;
+
+    }
+
+
+    if (!location) {
+
+        showError(
+            "Please enter the job location."
+        );
+
+        return;
+
+    }
+
+
+    if (!jobType) {
+
+        showError(
+            "Please select a job type."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        Number.isNaN(experience) ||
+        experience < 0
+    ) {
+
+        showError(
+            "Please enter a valid experience."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        Number.isNaN(vacancies) ||
+        vacancies < 1
+    ) {
+
+        showError(
+            "Vacancies must be at least 1."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        Number.isNaN(minSalary) ||
+        minSalary < 0
+    ) {
+
+        showError(
+            "Please enter a valid minimum salary."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        Number.isNaN(maxSalary) ||
+        maxSalary < 0
+    ) {
+
+        showError(
+            "Please enter a valid maximum salary."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        maxSalary < minSalary
+    ) {
+
+        showError(
+            "Maximum salary cannot be less than minimum salary."
+        );
+
+        return;
+
+    }
+
+
+    if (!requiredSkills) {
+
+        showError(
+            "Please enter the required skills."
+        );
+
+        return;
+
+    }
+
+
+    if (!description) {
+
+        showError(
+            "Please enter the job description."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * IMPORTANT:
+     *
+     * We intentionally DO NOT send companyId
+     * as the source of truth.
+     *
+     * The backend gets the company from:
+     *
+     * recruiterUserId → recruiter → companyId
+     */
+
+    const job = {
+
+        title:
+            title,
+
+        description:
+            description,
+
+        experienceRequired:
+            experience,
+
+        location:
+            location,
+
+        minSalary:
+            minSalary,
+
+        maxSalary:
+            maxSalary,
+
+        jobType:
+            jobType,
+
+        requiredSkills:
+            requiredSkills,
+
+        status:
+            "OPEN",
+
+        vacancies:
+            vacancies
+
+    };
+
+
+    console.log(
+        "Creating job for recruiter:",
+        user.userId
+    );
+
+    console.log(
+        "Request body:",
+        job
+    );
+
+
+    submitBtn.disabled =
+        true;
+
+    submitBtn.textContent =
+        "Posting...";
+
+
+    message.className =
+        "";
+
+    message.textContent =
+        "";
+
+
+    try {
+
+        /*
+         * IMPORTANT:
+         *
+         * New backend endpoint:
+         *
+         * POST /api/jobs?recruiterUserId=1
+         */
+
+        const response =
+            await fetch(
+                `/api/jobs?recruiterUserId=${encodeURIComponent(
+                    user.userId
+                )}`,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(
+                            job
+                        )
+                }
+            );
+
+
+        const contentType =
+            response.headers.get(
+                "content-type"
+            ) || "";
+
+
+        let data;
+
+
+        if (
+            contentType.includes(
+                "application/json"
+            )
+        ) {
+
+            data =
+                await response.json();
+
+        }
+        else {
+
+            data =
+                await response.text();
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                typeof data === "string"
+                    ? data
+                    : data.message ||
+                      data.error ||
+                      "Unable to create job."
+            );
+
+        }
+
+
+        console.log(
+            "Created job:",
+            data
+        );
+
+
+        /*
+         * Safety check:
+         * Backend should assign the recruiter company.
+         */
+
+        if (
+            data.companyId !== undefined &&
+            companyId !== null &&
+            Number(data.companyId) !== companyId
+        ) {
+
+            throw new Error(
+                "Job was created with an unexpected company."
+            );
+
+        }
+
+
+        message.className =
+            "success";
+
+
+        message.textContent =
+            "✓ Job posted successfully!";
+
+
+        submitBtn.textContent =
+            "Job Posted ✓";
+
+
+        setTimeout(
+            function() {
+
+                window.location.href =
+                    "recruiter.html";
+
+            },
+            1200
+        );
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "Create job error:",
+            error
+        );
+
+
+        message.className =
+            "error";
+
+
+        message.textContent =
+            error.message ||
+            "Unable to create job.";
+
+
+        submitBtn.disabled =
+            false;
+
+
+        submitBtn.textContent =
+            "Post Job";
+
+    }
+
+}
+
+
+/* =========================================================
+   ERROR MESSAGE
+========================================================= */
+
+function showError(
+    text
+) {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    message.className =
+        "error";
+
+
+    message.textContent =
+        text;
+
+}
+
+
+/* =========================================================
+   BACK
+========================================================= */
+
+function goBack() {
+
+    window.location.href =
+        "recruiter.html";
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHtml(
+    value
+) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+function logout() {
+
+    localStorage.removeItem(
+        "user"
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+loadRecruiterProfile();
+
+</script>
+
+
+</body>
+
+</html>
+
