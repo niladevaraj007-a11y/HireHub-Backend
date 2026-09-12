@@ -18,58 +18,77 @@ public class RecruiterService {
         this.recruiterRepository = recruiterRepository;
     }
 
-    // Create recruiter profile
-    public Recruiter createRecruiter(Recruiter recruiter) {
+    // =========================================================
+    // CREATE
+    // =========================================================
+
+    public Recruiter createRecruiter(
+            Recruiter recruiter) {
 
         if (recruiter.getUserId() == null) {
+
             throw new RuntimeException(
-                    "User ID is required");
+                    "User ID is required"
+            );
         }
 
-        if (recruiter.getCompanyId() == null) {
-            throw new RuntimeException(
-                    "Company ID is required");
-        }
-
-        // Prevent duplicate recruiter for same user
         if (recruiterRepository
                 .findByUserId(recruiter.getUserId())
                 .isPresent()) {
 
             throw new RuntimeException(
-                    "Recruiter profile already exists for this user");
+                    "Recruiter profile already exists for this user"
+            );
         }
 
         return recruiterRepository.save(recruiter);
     }
 
-    // Get recruiter by ID
+    // =========================================================
+    // GET BY ID
+    // =========================================================
+
     public Recruiter getRecruiterById(
             Integer recruiterId) {
 
-        return recruiterRepository.findById(recruiterId)
+        return recruiterRepository
+                .findById(recruiterId)
                 .orElseThrow(() ->
                         new RuntimeException(
-                                "Recruiter not found"));
+                                "Recruiter not found"
+                        )
+                );
     }
 
-    // Get recruiter by user ID
+    // =========================================================
+    // GET BY USER ID
+    // =========================================================
+
     public Recruiter getRecruiterByUserId(
             Integer userId) {
 
-        return recruiterRepository.findByUserId(userId)
+        return recruiterRepository
+                .findByUserId(userId)
                 .orElseThrow(() ->
                         new RuntimeException(
-                                "Recruiter not found for this user"));
+                                "Recruiter not found for this user"
+                        )
+                );
     }
 
-    // Get all recruiters
+    // =========================================================
+    // GET ALL
+    // =========================================================
+
     public List<Recruiter> getAllRecruiters() {
 
         return recruiterRepository.findAll();
     }
 
-    // Update recruiter
+    // =========================================================
+    // UPDATE
+    // =========================================================
+
     public Recruiter updateRecruiter(
             Integer recruiterId,
             Recruiter updatedRecruiter) {
@@ -78,22 +97,31 @@ public class RecruiterService {
                 recruiterRepository.findById(recruiterId)
                         .orElseThrow(() ->
                                 new RuntimeException(
-                                        "Recruiter not found"));
+                                        "Recruiter not found"
+                                )
+                        );
 
         if (updatedRecruiter.getDesignation() != null) {
+
             recruiter.setDesignation(
-                    updatedRecruiter.getDesignation());
+                    updatedRecruiter.getDesignation()
+            );
         }
 
         if (updatedRecruiter.getCompanyId() != null) {
+
             recruiter.setCompanyId(
-                    updatedRecruiter.getCompanyId());
+                    updatedRecruiter.getCompanyId()
+            );
         }
 
         return recruiterRepository.save(recruiter);
     }
 
-    // Delete recruiter
+    // =========================================================
+    // DELETE
+    // =========================================================
+
     public String deleteRecruiter(
             Integer recruiterId) {
 
@@ -101,7 +129,9 @@ public class RecruiterService {
                 recruiterRepository.findById(recruiterId)
                         .orElseThrow(() ->
                                 new RuntimeException(
-                                        "Recruiter not found"));
+                                        "Recruiter not found"
+                                )
+                        );
 
         recruiterRepository.delete(recruiter);
 

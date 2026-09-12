@@ -5,9 +5,13 @@ import com.Hirehub.entity.User;
 public class RegisterRequest {
 
     private String fullName;
+
     private String email;
+
     private String password;
+
     private String phone;
+
     private User.Role role;
 
     public RegisterRequest() {

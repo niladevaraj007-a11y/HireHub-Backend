@@ -3,8 +3,10 @@ package com.Hirehub.service;
 import com.Hirehub.dto.LoginRequest;
 import com.Hirehub.dto.RegisterRequest;
 import com.Hirehub.entity.JobSeeker;
+import com.Hirehub.entity.Recruiter;
 import com.Hirehub.entity.User;
 import com.Hirehub.repository.JobSeekerRepository;
+import com.Hirehub.repository.RecruiterRepository;
 import com.Hirehub.repository.UserRepository;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,19 +20,21 @@ import java.time.LocalDateTime;
 public class AuthService {
 
     private final UserRepository userRepository;
-    private final JobSeekerRepository jobSeekerRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
 
-    // =========================================================
-    // CONSTRUCTOR
-    // =========================================================
+    private final JobSeekerRepository jobSeekerRepository;
+
+    private final RecruiterRepository recruiterRepository;
+
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public AuthService(
             UserRepository userRepository,
-            JobSeekerRepository jobSeekerRepository) {
+            JobSeekerRepository jobSeekerRepository,
+            RecruiterRepository recruiterRepository) {
 
         this.userRepository = userRepository;
         this.jobSeekerRepository = jobSeekerRepository;
+        this.recruiterRepository = recruiterRepository;
 
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
@@ -52,13 +56,23 @@ public class AuthService {
             );
         }
 
-        // Create User
+        // Check role
+        if (request.getRole() == null) {
+
+            throw new RuntimeException(
+                    "Account type is required"
+            );
+        }
+
+        // =====================================================
+        // CREATE USER
+        // =====================================================
+
         User user = new User();
 
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
 
-        // Encrypt password
         user.setPassword(
                 passwordEncoder.encode(
                         request.getPassword()
@@ -69,7 +83,6 @@ public class AuthService {
         user.setRole(request.getRole());
         user.setCreatedAt(LocalDateTime.now());
 
-        // Save User first
         User savedUser = userRepository.save(user);
 
         System.out.println(
@@ -78,7 +91,7 @@ public class AuthService {
         );
 
         // =====================================================
-        // CREATE JOB SEEKER PROFILE
+        // JOB SEEKER
         // =====================================================
 
         if (savedUser.getRole() == User.Role.JOB_SEEKER) {
@@ -116,6 +129,39 @@ public class AuthService {
             );
         }
 
+        // =====================================================
+        // RECRUITER
+        // =====================================================
+
+        if (savedUser.getRole() == User.Role.RECRUITER) {
+
+            Recruiter recruiter = new Recruiter();
+
+            recruiter.setUserId(
+                    savedUser.getUserId()
+            );
+
+            recruiter.setDesignation(
+                    "HR Recruiter"
+            );
+
+            /*
+             * Company will be created later from
+             * the Create Company page.
+             *
+             * Therefore companyId is initially null.
+             */
+            recruiter.setCompanyId(null);
+
+            Recruiter savedRecruiter =
+                    recruiterRepository.save(recruiter);
+
+            System.out.println(
+                    "Created Recruiter ID: "
+                            + savedRecruiter.getRecruiterId()
+            );
+        }
+
         return savedUser;
     }
 
@@ -133,7 +179,6 @@ public class AuthService {
                         )
                 );
 
-        // Check password
         if (!passwordEncoder.matches(
                 request.getPassword(),
                 user.getPassword()

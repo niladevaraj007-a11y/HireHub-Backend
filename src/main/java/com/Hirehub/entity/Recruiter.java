@@ -1,4 +1,3 @@
-
 package com.Hirehub.entity;
 
 import jakarta.persistence.*;
@@ -18,7 +17,7 @@ public class Recruiter {
     @Column(name = "designation", length = 100)
     private String designation;
 
-    @Column(name = "company_id", nullable = false)
+    @Column(name = "company_id")
     private Integer companyId;
 
     public Recruiter() {
@@ -56,4 +55,3 @@ public class Recruiter {
         this.companyId = companyId;
     }
 }
-

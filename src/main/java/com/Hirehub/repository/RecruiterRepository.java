@@ -1,4 +1,3 @@
-
 package com.Hirehub.repository;
 
 import com.Hirehub.entity.Recruiter;

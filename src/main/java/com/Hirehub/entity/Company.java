@@ -11,7 +11,7 @@ public class Company {
     @Column(name = "company_id")
     private Integer companyId;
 
-    @Column(name = "recruiter_id", nullable = false)
+    @Column(name = "recruiter_id")
     private Integer recruiterId;
 
     @Column(name = "company_name", nullable = false, length = 150)

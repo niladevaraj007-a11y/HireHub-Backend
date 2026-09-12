@@ -1,7 +1,8 @@
+
 package com.Hirehub.controller;
 
 import com.Hirehub.entity.Company;
-import com.Hirehub.repository.CompanyRepository;
+import com.Hirehub.service.CompanyService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,36 +14,71 @@ import java.util.List;
 @CrossOrigin
 public class CompanyController {
 
-    private final CompanyRepository companyRepository;
+    private final CompanyService companyService;
 
-    public CompanyController(
-            CompanyRepository companyRepository) {
-
-        this.companyRepository =
-                companyRepository;
+    public CompanyController(CompanyService companyService) {
+        this.companyService = companyService;
     }
 
+    // =========================================================
     // GET ALL COMPANIES
-    // GET /api/companies
-    @GetMapping
-    public List<Company> getAllCompanies() {
+    // =========================================================
 
-        return companyRepository.findAll();
+    @GetMapping
+    public ResponseEntity<List<Company>> getAllCompanies() {
+
+        return ResponseEntity.ok(
+                companyService.getAllCompanies()
+        );
     }
 
+    // =========================================================
     // GET COMPANY BY ID
-    // GET /api/companies/1
+    // =========================================================
+
     @GetMapping("/{companyId}")
     public ResponseEntity<Company> getCompanyById(
             @PathVariable Integer companyId) {
 
-        Company company =
-                companyRepository
-                        .findById(companyId)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Company not found"));
+        return ResponseEntity.ok(
+                companyService.getCompanyById(companyId)
+        );
+    }
 
-        return ResponseEntity.ok(company);
+    // =========================================================
+    // CREATE COMPANY FOR RECRUITER
+    // =========================================================
+
+    @PostMapping("/recruiter/{recruiterId}")
+    public ResponseEntity<Company> createCompany(
+            @PathVariable Integer recruiterId,
+            @RequestBody Company company) {
+
+        return ResponseEntity.ok(
+                companyService.createCompany(
+                        recruiterId,
+                        company
+                )
+        );
+    }
+
+    // =========================================================
+    // UPDATE COMPANY
+    // =========================================================
+
+    @PutMapping("/recruiter/{recruiterId}/{companyId}")
+    public ResponseEntity<Company> updateCompany(
+            @PathVariable Integer recruiterId,
+            @PathVariable Integer companyId,
+            @RequestBody Company company) {
+
+        return ResponseEntity.ok(
+                companyService.updateCompany(
+                        recruiterId,
+                        companyId,
+                        company
+                )
+        );
     }
 }
+

@@ -150,10 +150,10 @@ DROP TABLE IF EXISTS `job_seekers`;
 CREATE TABLE `job_seekers` (
   `seeker_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `headline` varchar(200) DEFAULT NULL,
+  `headline` varchar(150) DEFAULT NULL,
   `location` varchar(100) DEFAULT NULL,
   `experience_years` decimal(3,1) DEFAULT '0.0',
-  `education` varchar(200) DEFAULT NULL,
+  `education` varchar(150) DEFAULT NULL,
   `about` text,
   PRIMARY KEY (`seeker_id`),
   UNIQUE KEY `user_id` (`user_id`),
@@ -306,7 +306,7 @@ CREATE TABLE `resumes` (
   `resume_id` int NOT NULL AUTO_INCREMENT,
   `seeker_id` int NOT NULL,
   `file_name` varchar(255) NOT NULL,
-  `file_path` varchar(500) NOT NULL,
+  `file_path` varchar(255) NOT NULL,
   `uploaded_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`resume_id`),
   KEY `seeker_id` (`seeker_id`),
@@ -394,8 +394,8 @@ CREATE TABLE `users` (
   `phone` varchar(15) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `bio` varchar(1000) DEFAULT NULL,
-  `location` varchar(255) DEFAULT NULL,
-  `skills` varchar(1000) DEFAULT NULL,
+  `location` varchar(150) DEFAULT NULL,
+  `skills` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -420,4 +420,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-11 12:23:09
+-- Dump completed on 2026-09-11 16:00:01
