@@ -65,6 +65,13 @@ public class CompanyService {
             );
         }
 
+        if (company == null) {
+
+            throw new RuntimeException(
+                    "Company information is required"
+            );
+        }
+
         if (company.getCompanyName() == null ||
                 company.getCompanyName().trim().isEmpty()) {
 
@@ -72,6 +79,10 @@ public class CompanyService {
                     "Company name is required"
             );
         }
+
+        // -----------------------------------------------------
+        // Find recruiter
+        // -----------------------------------------------------
 
         Recruiter recruiter =
                 recruiterRepository.findById(recruiterId)
@@ -81,7 +92,9 @@ public class CompanyService {
                                 )
                         );
 
-        // Check if recruiter already has company
+        // -----------------------------------------------------
+        // Check if recruiter already has a company
+        // -----------------------------------------------------
 
         if (recruiter.getCompanyId() != null) {
 
@@ -91,16 +104,22 @@ public class CompanyService {
         }
 
         // -----------------------------------------------------
-        // Step 1: Save company without recruiter ID
+        // Connect company to recruiter BEFORE saving
         // -----------------------------------------------------
 
-        company.setRecruiterId(null);
+        company.setRecruiterId(
+                recruiter.getRecruiterId()
+        );
+
+        // -----------------------------------------------------
+        // Save company
+        // -----------------------------------------------------
 
         Company savedCompany =
                 companyRepository.save(company);
 
         // -----------------------------------------------------
-        // Step 2: Connect recruiter to company
+        // Connect recruiter to the newly created company
         // -----------------------------------------------------
 
         recruiter.setCompanyId(
@@ -110,15 +129,8 @@ public class CompanyService {
         recruiterRepository.save(recruiter);
 
         // -----------------------------------------------------
-        // Step 3: Connect company back to recruiter
+        // Return saved company
         // -----------------------------------------------------
-
-        savedCompany.setRecruiterId(
-                recruiter.getRecruiterId()
-        );
-
-        savedCompany =
-                companyRepository.save(savedCompany);
 
         return savedCompany;
     }
@@ -144,6 +156,13 @@ public class CompanyService {
 
             throw new RuntimeException(
                     "Company ID is required"
+            );
+        }
+
+        if (company == null) {
+
+            throw new RuntimeException(
+                    "Company information is required"
             );
         }
 
@@ -204,7 +223,7 @@ public class CompanyService {
         }
 
         // -----------------------------------------------------
-        // Update allowed company fields
+        // Update company fields
         // -----------------------------------------------------
 
         existingCompany.setCompanyName(
@@ -227,7 +246,9 @@ public class CompanyService {
                 company.getCompanySize()
         );
 
-        // Keep original ownership
+        // -----------------------------------------------------
+        // Keep ownership
+        // -----------------------------------------------------
 
         existingCompany.setRecruiterId(
                 recruiterId
